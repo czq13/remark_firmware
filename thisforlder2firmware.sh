@@ -10,6 +10,7 @@ cp $paththisfolder/mavlink_messages.cpp $pathfirmware/src/modules/mavlink/
 cp $paththisfolder/mavlink_receiver.cpp $pathfirmware/src/modules/mavlink/
 cp $paththisfolder/mavlink_receiver.h $pathfirmware/src/modules/mavlink/
 cp $paththisfolder/tiltrotor.cpp $pathfirmware/src/modules/vtol_att_control/
+cp $paththisfolder/tiltrotor_params.c $pathfirmware/src/modules/vtol_att_control/
 cp $paththisfolder/tiltrotor.h $pathfirmware/src/modules/vtol_att_control/
 cp $paththisfolder/ch_actuator_controls.msg $pathfirmware/msg/
 cp $paththisfolder/ch_actuator_state.msg $pathfirmware/msg/

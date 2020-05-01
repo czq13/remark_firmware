@@ -43,12 +43,6 @@
 #include "vtol_type.h"
 #include <parameters/param.h>
 #include <drivers/drv_hrt.h>
-#include <uORB/Publication.hpp>
-#include <uORB/topics/rc_channels.h>
-#include <uORB/topics/ch_actuator_controls.h>
-#include <uORB/topics/ch_actuator_state.h>
-#include <uORB/Subscription.hpp>
-#include <uORB/SubscriptionCallback.hpp>
 
 class Tiltrotor : public VtolType
 {
@@ -69,19 +63,24 @@ public:
 private:
 
 	struct {
-		float tilt_mc;				/**< actuator value corresponding to mc tilt */
+		float tilt_mc;					/**< actuator value corresponding to mc tilt */
 		float tilt_transition;			/**< actuator value corresponding to transition tilt (e.g 45 degrees) */
-		float tilt_fw;				/**< actuator value corresponding to fw tilt */
-		float tilt_spinup;			/**< actuator value corresponding to spinup tilt */
+		float tilt_fw;					/**< actuator value corresponding to fw tilt */
 		float front_trans_dur_p2;
+
+		float tilt_wing;
+		float tilt_tail;
+		float tilt_thrust;
 	} _params_tiltrotor;
 
 	struct {
 		param_t tilt_mc;
 		param_t tilt_transition;
 		param_t tilt_fw;
-		param_t tilt_spinup;
 		param_t front_trans_dur_p2;
+		param_t tilt_wing;
+		param_t tilt_tail;
+		param_t tilt_thrust;
 	} _params_handles_tiltrotor;
 
 	enum class vtol_mode {
@@ -107,13 +106,6 @@ private:
 	float _tilt_control{0.0f};		/**< actuator value for the tilt servo */
 
 	void parameters_update() override;
-	hrt_abstime _last_timestamp_disarmed{0}; /**< used for calculating time since arming */
-	bool _tilt_motors_for_startup{false};
-
-	uORB::Subscription	_rc_sub{ORB_ID(rc_channels)};
-	uORB::Subscription _sub2{ORB_ID(ch_actuator_state)};
-
-	uORB::Publication<ch_actuator_controls_s> _ch_actuator_controls_pub{ORB_ID(ch_actuator_controls)};
 
 };
 #endif

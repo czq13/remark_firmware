@@ -33,7 +33,6 @@ then
 	param set RTL_TYPE 1
 
 	param set WV_EN 1
-	
 fi
 param set MAV_1_CONFIG 102
 param set MAV_1_MODE 1

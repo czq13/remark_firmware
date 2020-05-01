@@ -5241,21 +5241,13 @@ public:
 	        struct ch_actuator_controls_s _ch_actuator_controls;    //make sure ca_traj_struct_s is the definition of your uORB topic
 	        struct ch_actuator_state_s _ch_actuator_state;
 	        if (_sub.update(&_ch_actuator_controls)) {
-	        	printf("ch_1=%f,ch_2=%f\n",(double)_ch_actuator_controls.ch_1,(double)_ch_actuator_controls.ch_2);
 
 	        }
-
 	        mavlink_ch_message_t _ch_message;  //make sure mavlink_ca_trajectory_t is the definition of your custom MAVLink message
-	        if (_sub2.update(&_ch_actuator_state)) {
-	        	printf("num=%d,value=%f\n",_ch_actuator_state.num,(double)_ch_actuator_state.value);
-	        	tmp_num = (_ch_actuator_state.num==1)?2:1;
-	        }
-	        if (tmp_num == 0) tmp_num = 1;
-	        printf("tmp_num=%d\n",tmp_num);
-	        //tmp_num = (tmp_num + 1) % 2;
-	        _ch_message.num = tmp_num;
-	        _ch_message.ch_1 = _ch_actuator_controls.ch_1;
-	        _ch_message.ch_2 = _ch_actuator_controls.ch_2;
+	        if (_sub2.update(&_ch_actuator_state)) tmp_num = (tmp_num + 1) % 2;
+	        _ch_message.num = tmp_num + 1;//_ch_actuator_controls.num;
+	        _ch_message.ch_1 = 0xEEFF;//_ch_actuator_controls.ch_1;
+	        _ch_message.ch_2 = 0xAABB;//_ch_actuator_controls.ch_2;
 
 
 	        mavlink_msg_ch_message_send_struct(_mavlink->get_channel(), &_ch_message);
