@@ -2750,14 +2750,13 @@ void MavlinkReceiver::handle_message_ch_message(mavlink_message_t *msg) {
 	mavlink_msg_ch_message_decode(msg,&_ch_message);
 	ch_actuator_state_s tmp_status;
 	tmp_status.timestamp = hrt_absolute_time();
-	//printf("orignum=%d\n",_ch_message.num);
 	if (_ch_message.num == 1) {
 		tmp_status.num = 1;
-		tmp_status.value = float(_ch_message.ch_1);
+		tmp_status.value = _ch_message.ch_1;
 	}
 	else {
 		tmp_status.num = 0;
-		tmp_status.value = float(_ch_message.ch_2);
+		tmp_status.value = _ch_message.ch_2;
 	}
 	_ch_actuator_state_pub.publish(tmp_status);
 }

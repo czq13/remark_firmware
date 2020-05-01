@@ -10,8 +10,9 @@ This file defines the main outputs mixer for a Tilt-quadrotor in the + configura
 
 Motor 1
 
-M: 1
-S: 1 4   10000  10000     0 -10000  10000
+M: 2
+S: 0 1  10000   10000     0 -10000  10000
+S: 0 3  10000   10000     0 -10000  10000
 
 Motor 2
 
@@ -33,18 +34,11 @@ M: 1
 S: 1 0 -10000 -10000      0 -10000  10000
 
 Motor 5
-
 M: 1
 S: 0 4 10000 10000 0 -10000 10000
 
 Motor 6
-
 M: 1
 S: 1 2 10000 10000 0 -10000 10000
-
-Motor 7
-
-M: 1
-S: 1 4   10000  10000     0 -10000  10000
 
 
