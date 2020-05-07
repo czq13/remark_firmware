@@ -130,3 +130,18 @@ PARAM_DEFINE_FLOAT(VT_TILT_WING, 0.5f);
  * @group VTOL Attitude Control
  */
 PARAM_DEFINE_FLOAT(VT_TILT_THRUST, 0.5f);
+
+/**
+ * ROTOR_aileron
+ *
+ * Time in seconds it should take for the rotors to rotate forward completely from the point
+ * when the plane has picked up enough airspeed and is ready to go into fixed wind mode.
+ *
+ * @unit s
+ * @min 0
+ * @max 2.0
+ * @increment 0.01
+ * @decimal 3
+ * @group VTOL Attitude Control
+ */
+PARAM_DEFINE_FLOAT(VT_TILT_AILERON, 0.5f);

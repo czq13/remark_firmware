@@ -66,6 +66,7 @@ Tiltrotor::Tiltrotor(VtolAttitudeControl *attc) :
 	_params_handles_tiltrotor.tilt_wing = param_find("VT_TILT_WING");
 	_params_handles_tiltrotor.tilt_tail = param_find("VT_TILT_TAIL");
 	_params_handles_tiltrotor.tilt_thrust = param_find("VT_TILT_THRUST");
+	_params_handles_tiltrotor.tilt_aileron = param_find("VT_TILT_AILERON");
 }
 
 void
@@ -97,6 +98,9 @@ Tiltrotor::parameters_update()
 
 	param_get(_params_handles_tiltrotor.tilt_thrust,&v);
 	_params_tiltrotor.tilt_thrust = v;
+
+	param_get(_params_handles_tiltrotor.tilt_aileron,&v);
+	_params_tiltrotor.tilt_aileron = v;
 
 }
 
@@ -406,6 +410,7 @@ void Tiltrotor::fill_actuator_outputs()
 	_actuators_out_1->control[4] = (_params_tiltrotor.tilt_tail-0.5f) * 2.9f;
 	_actuators_out_1->control[5] = (_params_tiltrotor.tilt_wing-0.5f) * 2.0f;
 	_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
+	_actuators_out_0->control[2] = _params_tiltrotor.tilt_aileron;
 
 	if (_params->elevons_mc_lock && _vtol_schedule.flight_mode == vtol_mode::MC_MODE) {
 		_actuators_out_1->control[actuator_controls_s::INDEX_ROLL] = 0.0f;
