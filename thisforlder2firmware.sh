@@ -1,4 +1,4 @@
-yesththisfolder=/home/czq/remark_firmware
+paththisfolder=/home/czq/remark_firmware
 pathfirmware=/home/czq/new_version/Firmware
 cp $paththisfolder/rc.vtol_defaults $pathfirmware/ROMFS/px4fmu_common/init.d/
 cp $paththisfolder/firefly6.aux.mix $pathfirmware/ROMFS/px4fmu_common/mixers/
