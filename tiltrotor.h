@@ -115,5 +115,9 @@ private:
 
 	uORB::Publication<ch_actuator_controls_s> _ch_actuator_controls_pub{ORB_ID(ch_actuator_controls)};
 
+	float _ch_tilt,deltaN,deltaNy;
+	float a_posc2[4]{0.0f,0.0f,0.0f,0.0f};
+	float real1,real2{-450.0f};
+	float a_pos_pre2; //第二级舵机的位置预测值
 };
 #endif

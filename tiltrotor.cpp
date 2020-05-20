@@ -410,9 +410,7 @@ void Tiltrotor::waiting_on_tecs()
 /**
 * Write data to actuator output topic.
 */
-float _ch_tilt,deltaN,deltaNy;
-float a_posc2[4]={0,0,0,0},real1,real2;
-float a_pos_pre2; //第二级舵机的位置预测值
+
 void Tiltrotor::fill_actuator_outputs()
 {
 	// Multirotor output
@@ -458,8 +456,8 @@ void Tiltrotor::fill_actuator_outputs()
 	struct ch_actuator_state_s _ch_actuator_state;
 	if (_sub2.update(&_ch_actuator_state)) {
 		if (_ch_actuator_state.num == 1)
-			real1 = _ch_actuator_state.value;
-		else real2 = _ch_actuator_state.value;
+			real1 = _ch_actuator_state.value / 1.944f;
+		else real2 = _ch_actuator_state.value / 2.787f - 450.0f;
 		printf("num=%d,value=%f\n",_ch_actuator_state.num,(double)_ch_actuator_state.value)
 ;	}
 
@@ -488,18 +486,18 @@ void Tiltrotor::fill_actuator_outputs()
 	a2_nozzle =  acos((cos(Kn_nozzle/2.0f)-cos(a_nozzle)*cos(a_nozzle))/(sin(a_nozzle)*sin(a_nozzle))) ;//二级喷管角度
 	c2_nozzle = -(180.0f-a2_nozzle * 57.3f)*2.5f; //二级舵机输入角度值
 
-	/*a_pos_pre2=0.75*chuart.sd[1].pos*0.15+0.25* a_posc2[3];
-	a_pos_pre2=0.75*a_pos_pre2+0.25* a_posc2[2];
-	a_pos_pre2=0.75*a_pos_pre2+0.25* a_posc2[1];
-	a_pos_pre2=0.75*a_pos_pre2+0.25* a_posc2[0];
+	a_pos_pre2=0.75f*real2+0.25f* a_posc2[3];
+	a_pos_pre2=0.75f*a_pos_pre2+0.25f* a_posc2[2];
+	a_pos_pre2=0.75f*a_pos_pre2+0.25f* a_posc2[1];
+	a_pos_pre2=0.75f*a_pos_pre2+0.25f* a_posc2[0];
 
 
-	if((c2_nozzle-a_pos_pre2) > 3.5){
-		c2_nozzle = a_pos_pre2 + 3.5;
+	if((c2_nozzle-a_pos_pre2) > 20.0f){
+		c2_nozzle = a_pos_pre2 + 20.0f;
 	}
-	else if((c2_nozzle-a_pos_pre2) < -3.5){
-		c2_nozzle = a_pos_pre2 -3.5;
-	}*/
+	else if((c2_nozzle-a_pos_pre2) < -20.0f){
+		c2_nozzle = a_pos_pre2 -20.0f;
+	}
 	if(c2_nozzle > 0.0f){
 	    c2_nozzle = 0.0f;
 	}
