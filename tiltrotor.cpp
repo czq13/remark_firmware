@@ -63,7 +63,8 @@ Tiltrotor::Tiltrotor(VtolAttitudeControl *attc) :
 	_params_handles_tiltrotor.tilt_fw = param_find("VT_TILT_FW");
 	_params_handles_tiltrotor.front_trans_dur_p2 = param_find("VT_TRANS_P2_DUR");
 
-	_params_handles_tiltrotor.tilt_wing = param_find("VT_TILT_WING");
+	_params_handles_tiltrotor.tilt_wing_R = param_find("VT_TILT_WING_R");
+	_params_handles_tiltrotor.tilt_wing_L = param_find("VT_TILT_WING_L");
 	_params_handles_tiltrotor.tilt_tail = param_find("VT_TILT_TAIL");
 	_params_handles_tiltrotor.tilt_thrust = param_find("VT_TILT_THRUST");
 	_params_handles_tiltrotor.tilt_aileron = param_find("VT_TILT_AILERON");
@@ -90,8 +91,11 @@ Tiltrotor::parameters_update()
 	param_get(_params_handles_tiltrotor.front_trans_dur_p2, &v);
 	_params_tiltrotor.front_trans_dur_p2 = v;
 
-	param_get(_params_handles_tiltrotor.tilt_wing,&v);
-	_params_tiltrotor.tilt_wing = v;
+	param_get(_params_handles_tiltrotor.tilt_wing_R,&v);
+	_params_tiltrotor.tilt_wing_R = v;
+
+	param_get(_params_handles_tiltrotor.tilt_wing_L,&v);
+	_params_tiltrotor.tilt_wing_L = v;
 
 	param_get(_params_handles_tiltrotor.tilt_tail,&v);
 	_params_tiltrotor.tilt_tail = v;
@@ -407,8 +411,9 @@ void Tiltrotor::fill_actuator_outputs()
 	parameters_update();
 
 	//_actuators_out_1->control[4] = _tilt_control;
-	_actuators_out_1->control[4] = (_params_tiltrotor.tilt_tail-0.5f) * 2.9f;
-	_actuators_out_1->control[5] = (_params_tiltrotor.tilt_wing-0.5f) * 2.0f;
+	_actuators_out_1->control[4] = (_params_tiltrotor.tilt_tail)*2.0f;
+	_actuators_out_1->control[5] = (_params_tiltrotor.tilt_wing_R);
+	_actuators_out_1->control[6] = (_params_tiltrotor.tilt_wing_L);
 	_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
 	_actuators_out_0->control[2] = _params_tiltrotor.tilt_aileron;
 

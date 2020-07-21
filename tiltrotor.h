@@ -68,7 +68,8 @@ private:
 		float tilt_fw;					/**< actuator value corresponding to fw tilt */
 		float front_trans_dur_p2;
 
-		float tilt_wing;
+		float tilt_wing_R;
+		float tilt_wing_L;
 		float tilt_tail;
 		float tilt_thrust;
 		float tilt_aileron;
@@ -79,7 +80,8 @@ private:
 		param_t tilt_transition;
 		param_t tilt_fw;
 		param_t front_trans_dur_p2;
-		param_t tilt_wing;
+		param_t tilt_wing_L;
+		param_t tilt_wing_R;
 		param_t tilt_tail;
 		param_t tilt_thrust;
 		param_t tilt_aileron;
