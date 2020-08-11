@@ -68,6 +68,9 @@ Tiltrotor::Tiltrotor(VtolAttitudeControl *attc) :
 	_params_handles_tiltrotor.tilt_tail = param_find("VT_TILT_TAIL");
 	_params_handles_tiltrotor.tilt_thrust = param_find("VT_TILT_THRUST");
 	_params_handles_tiltrotor.tilt_aileron = param_find("VT_TILT_AILERON");
+
+	_params_handles_tiltrotor.tilt_wing_thrust_lim = param_find("VT_TILT_WING_TL");
+	_params_handles_tiltrotor.tilt_tail_thrust_lim = param_find("VT_TILT_TAIL_TL");
 }
 
 void
@@ -106,6 +109,11 @@ Tiltrotor::parameters_update()
 	param_get(_params_handles_tiltrotor.tilt_aileron,&v);
 	_params_tiltrotor.tilt_aileron = v;
 
+	param_get(_params_handles_tiltrotor.tilt_wing_thrust_lim,&v);
+	_params_tiltrotor.tilt_wing_thrust_lim = v;
+
+	param_get(_params_handles_tiltrotor.tilt_tail_thrust_lim,&v);
+	_params_tiltrotor.tilt_tail_thrust_lim = v;
 }
 
 void Tiltrotor::update_vtol_state()
@@ -410,13 +418,6 @@ void Tiltrotor::fill_actuator_outputs()
 
 	parameters_update();
 
-	//_actuators_out_1->control[4] = _tilt_control;
-	_actuators_out_1->control[4] = (_params_tiltrotor.tilt_tail)*2.0f;
-	_actuators_out_1->control[5] = (_params_tiltrotor.tilt_wing_R);
-	_actuators_out_1->control[6] = (_params_tiltrotor.tilt_wing_L);
-	_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
-	_actuators_out_0->control[2] = _params_tiltrotor.tilt_aileron;
-
 	if (_params->elevons_mc_lock && _vtol_schedule.flight_mode == vtol_mode::MC_MODE) {
 		_actuators_out_1->control[actuator_controls_s::INDEX_ROLL] = 0.0f;
 		_actuators_out_1->control[actuator_controls_s::INDEX_PITCH] = 0.0f;
@@ -430,6 +431,15 @@ void Tiltrotor::fill_actuator_outputs()
 		_actuators_out_1->control[actuator_controls_s::INDEX_YAW] =
 			_actuators_fw_in->control[actuator_controls_s::INDEX_YAW];
 	}
+
+	_actuators_out_1->control[4] = (_params_tiltrotor.tilt_tail)*2.0f;
+	_actuators_out_1->control[5] = (_params_tiltrotor.tilt_wing_R);
+	_actuators_out_1->control[6] = (_params_tiltrotor.tilt_wing_L);
+	//_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
+	_actuators_out_0->control[5] = _params_tiltrotor.tilt_aileron;
+	float tmp_thrust = _actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE];
+	_actuators_out_0->control[3] = (_params_tiltrotor.tilt_wing_thrust_lim+1.0f) * tmp_thrust -1.0f;
+	_actuators_out_0->control[4] = (_params_tiltrotor.tilt_tail_thrust_lim+1.0f) * tmp_thrust -1.0f;
 }
 
 /*

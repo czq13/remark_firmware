@@ -73,6 +73,8 @@ private:
 		float tilt_tail;
 		float tilt_thrust;
 		float tilt_aileron;
+		float tilt_wing_thrust_lim;
+		float tilt_tail_thrust_lim;
 	} _params_tiltrotor;
 
 	struct {
@@ -85,6 +87,8 @@ private:
 		param_t tilt_tail;
 		param_t tilt_thrust;
 		param_t tilt_aileron;
+		param_t tilt_wing_thrust_lim;
+		param_t tilt_tail_thrust_lim;
 	} _params_handles_tiltrotor;
 
 	enum class vtol_mode {
