@@ -75,6 +75,11 @@ private:
 		float tilt_aileron;
 		float tilt_wing_thrust_lim;
 		float tilt_tail_thrust_lim;
+		float tilt_thrust_tail;
+		float tilt_mode;
+
+		float tilt_tail_interpy[7];
+		float tilt_wing_interpx[7];
 	} _params_tiltrotor;
 
 	struct {
@@ -89,6 +94,24 @@ private:
 		param_t tilt_aileron;
 		param_t tilt_wing_thrust_lim;
 		param_t tilt_tail_thrust_lim;
+		param_t tilt_thrust_tail;
+		param_t tilt_mode;
+
+		param_t tilt_tail0;
+		param_t tilt_tail1;
+		param_t tilt_tail2;
+		param_t tilt_tail3;
+		param_t tilt_tail4;
+		param_t tilt_tail5;
+		param_t tilt_tail6;
+
+		param_t tilt_wing0;
+		param_t tilt_wing1;
+		param_t tilt_wing2;
+		param_t tilt_wing3;
+		param_t tilt_wing4;
+		param_t tilt_wing5;
+		param_t tilt_wing6;
 	} _params_handles_tiltrotor;
 
 	enum class vtol_mode {
