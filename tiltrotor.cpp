@@ -504,16 +504,23 @@ void Tiltrotor::fill_actuator_outputs()
 	_actuators_out_1->control[6] = (_params_tiltrotor.tilt_wing_L);
 	//_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
 	_actuators_out_0->control[5] = _params_tiltrotor.tilt_aileron;
-	if (_params_tiltrotor.tilt_mode < 1) {
-		float tmp_thrust = _actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE];
-		_actuators_out_0->control[3] = (_params_tiltrotor.tilt_wing_thrust_lim+1.0f) * tmp_thrust -1.0f;
-		tmp_thrust = _actuators_out_0->control[3];
+	if (_params_tiltrotor.tilt_mode < 0) {
+		float tmp_thrust = 0.0f;
+		if (_params_tiltrotor.tilt_mode < -0.5f) {
+			tmp_thrust = _actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE];
+			_actuators_out_0->control[3] = (_params_tiltrotor.tilt_wing_thrust_lim+1.0f) * tmp_thrust -1.0f;
+			tmp_thrust = _actuators_out_0->control[3];
+		}
+		else {
+			_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
+			tmp_thrust = _actuators_out_0->control[3];
+		}
 		//_actuators_out_0->control[4] = (_params_tiltrotor.tilt_tail_thrust_lim+1.0f) * tmp_thrust -1.0f;
 		int i = 0;
 		bool succ = false;
 		for (i = 0;i < 6;i++) {
 			if (_params_tiltrotor.tilt_wing_interpx[i] < tmp_thrust &&
-					tmp_thrust < _params_tiltrotor.tilt_wing_interpx[i+1]) {
+					tmp_thrust <= _params_tiltrotor.tilt_wing_interpx[i+1]) {
 				_actuators_out_0->control[4] = _params_tiltrotor.tilt_tail_interpy[i] +
 						(_params_tiltrotor.tilt_tail_interpy[i+1]-_params_tiltrotor.tilt_tail_interpy[i]) /
 						(_params_tiltrotor.tilt_wing_interpx[i+1]-_params_tiltrotor.tilt_wing_interpx[i]) *
@@ -526,7 +533,7 @@ void Tiltrotor::fill_actuator_outputs()
 			_actuators_out_0->control[4] = -1;
 		}
 	}
-	else if(_params_tiltrotor.tilt_mode > 1) {
+	else {
 		_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
 		_actuators_out_0->control[4] = _params_tiltrotor.tilt_thrust_tail;
 	}
