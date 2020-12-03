@@ -507,9 +507,11 @@ void Tiltrotor::fill_actuator_outputs()
 	if (_params_tiltrotor.tilt_mode < 0) {
 		float tmp_thrust = 0.0f;
 		if (_params_tiltrotor.tilt_mode < -0.5f) {
-			tmp_thrust = _actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE];
-			_actuators_out_0->control[3] = (_params_tiltrotor.tilt_wing_thrust_lim+1.0f) * tmp_thrust -1.0f;
-			tmp_thrust = _actuators_out_0->control[3];
+			tmp_thrust = _actuators_out_0->control[actuator_controls_s::INDEX_THROTTLE] - 0.67f;
+			//_actuators_out_0->control[3] = (_params_tiltrotor.tilt_wing_thrust_lim+1.0f) * tmp_thrust -1.0f;
+			if (tmp_thrust > 0.0f) tmp_thrust = 0.0f;
+			else if (tmp_thrust < -1.0f) tmp_thrust = -1.0f;
+			_actuators_out_0->control[3] = tmp_thrust;
 		}
 		else {
 			_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
@@ -536,6 +538,9 @@ void Tiltrotor::fill_actuator_outputs()
 	else {
 		_actuators_out_0->control[3] = _params_tiltrotor.tilt_thrust;
 		_actuators_out_0->control[4] = _params_tiltrotor.tilt_thrust_tail;
+		_actuators_out_0->control[0] = 0.0f;
+		_actuators_out_0->control[1] = 0.0f;
+		_actuators_out_0->control[2] = 0.0f;
 	}
 }
 
